@@ -2,14 +2,14 @@ import network
 import socket
 import time
 
-# WLAN-Verbindung herstellen
 def connect_wifi():
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
-    wlan.connect('dein_wlan_name', 'dein_wlan_passwort')
+    wlan.connect('FRITZ!Box 6660 Cable LI', '52777539319005712732')
     while not wlan.isconnected():
         time.sleep(0.5)
-    print('WLAN verbunden', wlan.ifconfig())
+    print('WLAN verbunden', wlan.ifconfig())  # IP-Adresse des ESP32 hier auslesen
+
 
 # TCP/IP-Server starten
 def start_server():

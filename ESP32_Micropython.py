@@ -1,50 +1,46 @@
 import time
-import network
-import socket
-import bno055
 from machine import Pin, I2C
 
-# Setup für das BNO055 IMU-Modul
-i2c = I2C(scl=Pin(22), sda=Pin(21))  # Hier Pin-Nummern anpassen
-imu = bno055.BNO055(i2c)
+# I2C-Bus einrichten
+i2c = I2C(scl=Pin(22), sda=Pin(21))
 
-# WLAN-Verbindung herstellen
-def connect_wifi():
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    wlan.connect('dein_wlan_name', 'dein_wlan_passwort')
-    while not wlan.isconnected():
-        time.sleep(0.5)
-    print('WLAN verbunden', wlan.ifconfig())
+# MPU-9250 Adresse und Register-Definitionen
+MPU9250_ADDR = 0x68
+MPU9250_PWR_MGMT_1 = 0x6B
+MPU9250_ACCEL_XOUT_H = 0x3B
 
-# Starten der WLAN-Verbindung
-connect_wifi()
+# MPU9250 initialisieren
+i2c.writeto_mem(MPU9250_ADDR, MPU9250_PWR_MGMT_1, bytes([0]))
 
-# Erstellen eines Sockets für die Kommunikation mit Streamlit
-def create_socket():
-    addr = socket.getaddrinfo('0.0.0.0', 8080)[0][-1]
-    s = socket.socket()
-    s.bind(addr)
-    s.listen(1)
-    print('Listening on', addr)
-    return s
+def read_accel():
+    # Lese Beschleunigungsdaten
+    data = i2c.readfrom_mem(MPU9250_ADDR, MPU9250_ACCEL_XOUT_H, 6)
+    accel_x = (data[0] << 8) | data[1]
+    accel_y = (data[2] << 8) | data[3]
+    accel_z = (data[4] << 8) | data[5]
+    return accel_x, accel_y, accel_z
 
-# Funktion zum Senden der IMU-Daten
-def send_imu_data(client_socket):
-    while True:
-        # Hole die Euler-Winkel (Roll, Pitch, Yaw)
-        euler_angles = imu.read_euler()
-        data = f"{euler_angles[0]},{euler_angles[1]},{euler_angles[2]}"
-        client_socket.send(data.encode('utf-8'))
-        time.sleep(0.1)
+# Hauptschleife
+while True:
+    accel_x, accel_y, accel_z = read_accel()
+    print("Beschleunigung X: ", accel_x)
+    print("Beschleunigung Y: ", accel_y)
+    print("Beschleunigung Z: ", accel_z)
+    
+    time.sleep(1)
+    
+    
+    
+    
+import math
 
-# Hauptfunktion
-def main():
-    s = create_socket()
-    while True:
-        client_socket, client_addr = s.accept()
-        print('Client verbunden:', client_addr)
-        send_imu_data(client_socket)
+def calculate_angle(accel_x, accel_y, accel_z):
+    angle = math.degrees(math.atan2(accel_y, accel_z))
+    return angle
 
-if __name__ == '__main__':
-    main()
+# Hauptschleife
+while True:
+    accel_x, accel_y, accel_z = read_accel()
+    angle = calculate_angle(accel_x, accel_y, accel_z)
+    print("Neigungswinkel: ", angle)
+    time.sleep(1)
