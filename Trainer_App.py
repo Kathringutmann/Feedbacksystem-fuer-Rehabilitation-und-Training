@@ -1,95 +1,107 @@
 import streamlit as st
-from PIL import Image
+import websockets  # Verwende das asynchrone websockets-Modul
+import json
+import asyncio
+import threading
+
+# Globale Variable für den aktuellen Winkel
+current_angle = 0
+is_connected = False
+
+# Callback-Funktion für empfangene WebSocket-Nachrichten
+async def on_message(websocket):
+    global current_angle
+    try:
+        async for message in websocket:
+            data = json.loads(message)  # Nachricht als JSON laden
+            if "angle" in data:
+                current_angle = data["angle"]
+    except Exception as e:
+        print(f"Fehler beim Verarbeiten der Nachricht: {e}")
+
+# WebSocket-Verbindung herstellen
+async def start_websocket():
+    global is_connected
+    is_connected = True
+    uri = "ws://192.168.178.71:8501"  # Ersetze mit der IP deines Servers, falls erforderlich
+    async with websockets.connect(uri) as websocket:
+        await on_message(websocket)
+
+# WebSocket-Thread starten
+def start_websocket_thread():
+    loop = asyncio.new_event_loop()  # Erstelle ein neues Event-Loop
+    threading.Thread(target=lambda: loop.run_until_complete(start_websocket()), daemon=True).start()
 
 # Hauptmenü-Funktion
 def main_menu():
     st.title("Feedbacksystem für Rehabilitation und Training")
     st.subheader("Bitte wählen Sie ein Gelenk aus:")
 
-    # Erstelle Layout-Spalten für das Bild und den Button, die beide nebeneinander sind
-    col1, col2 = st.columns([1, 1])  # Bild nimmt mehr Platz als der Button
+    col1, col2 = st.columns([1, 1])  # Bild und Button in Spalten
 
     with col1:
-        # Anzeige des Bildes für das Kniegelenk
         st.write("**Kniegelenk**")
-        knie_image = Image.open("kniegelenk_128570975.jpg")
-        knie_image = knie_image.resize((200, 200))  # Bildgröße anpassen
-        st.image(knie_image, width=200, use_container_width=False)
+        st.image("kniegelenk_128570975.jpg", width=200)
 
     with col2:
-        # Button zum Menü mit der Winkelmessung, auf der Höhe des Bildes
-        if st.button("Winkelmessung Kniegelenk", key="knie_button", help="Zum Kniegelenk (Klick auf den Button)"):
+        if st.button("Winkelmessung Kniegelenk", key="knie_button"):
             knie_menu()
 
-    # Weitere Gelenke: Schulter und Hüfte
-    col1, col2 = st.columns([1, 1])  # Spalten für Schultergelenk und Button
+    col1, col2 = st.columns([1, 1])
+
     with col1:
-        # Anzeige des Bildes für das Schultergelenk
         st.write("**Schultergelenk**")
-        shoulder_image = Image.open("shoulder-1-600x600.jpg")
-        shoulder_image = shoulder_image.resize((200, 200))  # Bildgröße anpassen
-        st.image(shoulder_image, width=200, use_container_width=False)
+        st.image("shoulder-1-600x600.jpg", width=200)
 
     with col2:
-        # Button für Schultergelenk
-        if st.button("Winkelmessung Schultergelenk", key="shoulder_button", help="Zum Schultergelenk (Klick auf den Button)"):
+        if st.button("Winkelmessung Schultergelenk", key="shoulder_button"):
             shoulder_menu()
 
-    col1, col2 = st.columns([1, 1])  # Spalten für Hüftgelenk und Button
+    col1, col2 = st.columns([1, 1])
+
     with col1:
-        # Anzeige des Bildes für das Hüftgelenk
         st.write("**Hüftgelenk**")
-        hip_image = Image.open("shutterstock_485980747-960x720.jpg")  # Beispielbild für Hüfte
-        hip_image = hip_image.resize((200, 200))  # Bildgröße anpassen
-        st.image(hip_image, width=200, use_container_width=False)
+        st.image("shutterstock_485980747-960x720.jpg", width=200)
 
     with col2:
-        # Button für Hüftgelenk
-        if st.button("Winkelmessung Hüftgelenk", key="hip_button", help="Zum Hüftgelenk (Klick auf den Button)"):
+        if st.button("Winkelmessung Hüftgelenk", key="hip_button"):
             hip_menu()
 
-# Knie-Menü-Funktion (mit Sensor-Daten)
+# Knie-Menü-Funktion
 def knie_menu():
     st.title("Kniegelenk Winkelmessung")
     st.write("Aktuelle Winkelmessung:")
 
-    # Beispiel für einen Winkelwert, hier als 45
-    angle = 45  # Dies könnte später durch echte Sensordaten ersetzt werden
-    
-    # Zeige die Zahl als große Zahl
-    st.markdown(f"<h1 style='text-align: center; font-size: 180px;'>{angle}°</h1>", unsafe_allow_html=True)
+    global current_angle
+    angle_placeholder = st.empty()  # Platzhalter für den Winkel
 
-    if st.button("Zurück zum Hauptmenü"):
+    # Zeige Winkel in Echtzeit, ohne eine Schleife
+    angle_placeholder.markdown(
+        f"<h1 style='text-align: center; font-size: 180px;'>{current_angle:.2f}°</h1>",
+        unsafe_allow_html=True
+    )
+
+    # Verwende einen einzigartigen key für den Button
+    if st.button("Zurück zum Hauptmenü", key="knie_return_button_unique"):
         main_menu()
 
-# Schulter-Menü-Funktion (mit Platzhalter für Sensor-Daten)
+# Schulter- und Hüft-Menüs (Platzhalter)
 def shoulder_menu():
     st.title("Schultergelenk Winkelmessung")
     st.write("Aktuelle Winkelmessung:")
-
-    # Beispiel für einen Winkelwert, hier als 60
-    angle = 60  # Dies könnte später durch echte Sensordaten ersetzt werden
-    
-    # Zeige die Zahl als große Zahl
-    st.markdown(f"<h1 style='text-align: center; font-size: 180px;'>{angle}°</h1>", unsafe_allow_html=True)
-
-    if st.button("Zurück zum Hauptmenü"):
+    st.markdown("<h1 style='text-align: center; font-size: 180px;'>60°</h1>", unsafe_allow_html=True)
+    if st.button("Zurück zum Hauptmenü", key="shoulder_return_button_unique"):
         main_menu()
 
-# Hüft-Menü-Funktion (mit Platzhalter für Sensor-Daten)
 def hip_menu():
     st.title("Hüftgelenk Winkelmessung")
     st.write("Aktuelle Winkelmessung:")
-
-    # Beispiel für einen Winkelwert, hier als 90
-    angle = 90  # Dies könnte später durch echte Sensordaten ersetzt werden
-    
-    # Zeige die Zahl als große Zahl
-    st.markdown(f"<h1 style='text-align: center; font-size: 180px;'>{angle}°</h1>", unsafe_allow_html=True)
-
-    if st.button("Zurück zum Hauptmenü"):
+    st.markdown("<h1 style='text-align: center; font-size: 180px;'>90°</h1>", unsafe_allow_html=True)
+    if st.button("Zurück zum Hauptmenü", key="hip_return_button_unique"):
         main_menu()
 
-# Starte die App mit dem Hauptmenü
+# Starte die App
 if __name__ == "__main__":
+    if not is_connected:
+        start_websocket_thread()
     main_menu()
