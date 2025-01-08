@@ -14,10 +14,6 @@ angepasste Lib für die Sensoren (Quelle: Github)
 Der Streamlit-Code empfängt die Sensordaten über WLAN und zeigt sie in einer Benutzeroberfläche an.
 Dropdownmenü für mögliche weitere Gelenke...
 
-Erklärung:
-Die App verbindet sich über WLAN mit dem ESP32 und empfängt kontinuierlich die Daten.
-Die Euler-Winkel (Roll, Pitch, Yaw) werden in Echtzeit angezeigt und aktualisiert.
-Stelle sicher, dass du die IP-Adresse des ESP32 korrekt in der connect_to_esp32()-Funktion einträgst.
 
 # Anwendung:
 1. Kalibrierung direkt in "Endlage = 0°" des Gelenks für jede Benutzung seperat
