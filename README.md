@@ -6,6 +6,10 @@
 - acccalib.py
 - barebone.py
   
+ # Wechsel ziwschen Branches:
+ - Auflisten aller Branches
+ - git checkout -b "Webserver-(einfache-Lösung)" origin/"Webserver-(einfache-Lösung)"
+ -  Wechsel zu Main: git checkout main
   
 # 1. Code für den ESP32 Kalibrierung (MicroPython: Kalibrierung_Knie.py)
 Über drei Achsen Beschläunigung wird jeweils pro Sensor ein Vektor erstellt und deren Abhängigkeit zwischen der beiden, also den Winkel den die beiden zueinander haben 0° gesetzt.
