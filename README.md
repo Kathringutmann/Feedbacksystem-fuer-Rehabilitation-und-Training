@@ -33,4 +33,4 @@ Stelle sicher, dass du die IP-Adresse des ESP32 korrekt in der connect_to_esp32(
 - mögliche Halterungen (3D-Druck) zur Erweiterung für mehr Gelenksmessungen
 - App Erweiterung der Gelenke
 - App Erweiterung für Kommunikation mit Physios,...
--> Ziel: nur Sensoren an Gelenken und Anzeige in der App zur Hilfe bei Eigenmobilisation odeer Winkelkontrolle
+   Ziel: nur Sensoren an Gelenken und Anzeige in der App zur Hilfe bei Eigenmobilisation odeer Winkelkontrolle
