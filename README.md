@@ -1,6 +1,12 @@
 ## Feedbacksystem-fuer-Rehabilitation-und-Training
 
-
+# nicht benutzte Libs oder .py :
+- ESP32_Micropython.py
+- W-Lan_connection_ESP32.py
+- acccalib.py
+- barebone.py
+  
+  
 # 1. Code für den ESP32 Kalibrierung (MicroPython: Kalibrierung_Knie.py)
 Über drei Achsen Beschläunigung wird jeweils pro Sensor ein Vektor erstellt und deren Abhängigkeit zwischen der beiden, also den Winkel den die beiden zueinander haben 0° gesetzt.
 
