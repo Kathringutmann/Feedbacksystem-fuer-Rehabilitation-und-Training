@@ -26,8 +26,8 @@ Stelle sicher, dass du die IP-Adresse des ESP32 korrekt in der connect_to_esp32(
    
 
 # To do's
--Webserverhandshake zwischen Streamlit App und Winkelmessung vom ESP32
--Stromversorgung über Laptop?
+- Webserverhandshake zwischen Streamlit App und Winkelmessung vom ESP32
+- Stromversorgung über Laptop?
 
 # mögliche Erweiterungen
 -mögliche Halterungen (3D-Druck) zur Erweiterung für mehr Gelenksmessungen
