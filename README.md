@@ -7,8 +7,8 @@
 - barebone.py
   
  # Wechsel ziwschen Branches:
- - Auflisten aller Branches
- - git checkout -b "Webserver-(einfache-Lösung)" origin/"Webserver-(einfache-Lösung)"
+ - Auflisten aller Branches: git branch -a
+ - Wechsel zu Branch: git checkout -b "Webserver-(einfache-Lösung)" origin/"Webserver-(einfache-Lösung)"
  -  Wechsel zu Main: git checkout main
   
 # 1. Code für den ESP32 Kalibrierung (MicroPython: Kalibrierung_Knie.py)
