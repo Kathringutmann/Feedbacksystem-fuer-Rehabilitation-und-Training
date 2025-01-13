@@ -3,8 +3,8 @@ from machine import Pin, ADC
 import network
 
 # Verbindungsdaten deines WLANs
-SSID = "DeinWLAN"
-PASSWORD = "DeinPasswort"
+SSID = "FRITZ!BOX 7590"
+PASSWORD = "73731537040695638431"
 
 # Globale Winkel-Daten
 current_angle = {
