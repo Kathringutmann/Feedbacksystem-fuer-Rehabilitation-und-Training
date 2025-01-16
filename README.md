@@ -1,7 +1,7 @@
 ## Feedbacksystem-fuer-Rehabilitation-und-Training
 
 # verwendete .py:
-Ja, mit den vier Python-Dateien (**`imu.py`**, **`kalibrierungs.py`**, **`html.py`** und **`winkelmessungs.py`**) sollte der Code vollständig funktionieren, vorausgesetzt, die Dateien sind korrekt implementiert und erfüllen die jeweiligen Aufgaben. Hier ist eine Erklärung, welche Aufgabe jede Datei hat:
+Ja, mit den vier Python-Dateien (**`imu.py`**, **`kalibrierung_knie.py`**, **`html_template.py`** und **`winkelmessung_mit_Webserver.py`**) sollte der Code vollständig funktionieren, vorausgesetzt, die Dateien sind korrekt implementiert und erfüllen die jeweiligen Aufgaben. Hier ist eine Erklärung, welche Aufgabe jede Datei hat:
 
 ---
 
@@ -20,7 +20,7 @@ Ja, mit den vier Python-Dateien (**`imu.py`**, **`kalibrierungs.py`**, **`html.p
 
 ---
 
-### **2. `kalibrierungs.py`**:
+### **2. `Kalibrierung_Knie.py`**:
 #### **Aufgabe: Sensor-Kalibrierung**
 - Diese Datei ist dafür verantwortlich, die Sensoren zu kalibrieren und die Kalibrierungsdaten in einer JSON-Datei zu speichern.
 - Hauptbestandteile:
@@ -35,7 +35,7 @@ Ja, mit den vier Python-Dateien (**`imu.py`**, **`kalibrierungs.py`**, **`html.p
 
 ---
 
-### **3. `html.py`**:
+### **3. `html_template.py`**:
 #### **Aufgabe: Generierung von HTML**
 - Diese Datei enthält die Funktion(en), die das HTML-Dokument für den Webserver generieren.
 - Hauptbestandteil:
@@ -50,7 +50,7 @@ Ja, mit den vier Python-Dateien (**`imu.py`**, **`kalibrierungs.py`**, **`html.p
 
 ---
 
-### **4. `winkelmessungs.py`**:
+### **4. `Winkelmessung-mit_Webserver.py`**:
 #### **Aufgabe: Winkelberechnung und Webserver**
 - Diese Datei ist der zentrale Steuerungscode und übernimmt mehrere Aufgaben:
   - **Initialisierung**:
@@ -64,34 +64,34 @@ Ja, mit den vier Python-Dateien (**`imu.py`**, **`kalibrierungs.py`**, **`html.p
 #### **Rolle im Gesamtsystem**:
 - Diese Datei verbindet alle Komponenten:
   - Die Sensor-Daten werden mit **`imu.py`** ausgelesen.
-  - Die Kalibrierungsdaten werden mit **`kalibrierungs.py`** genutzt.
-  - Die HTML-Seite wird mit **`html.py`** erstellt.
+  - Die Kalibrierungsdaten werden mit **`Kalibrierung_Knie.py`** genutzt.
+  - Die HTML-Seite wird mit **`html_template.py`** erstellt.
 - Sie führt den Hauptprozess aus: Winkelmessung und Anzeige über einen Webserver.
 
 ---
 
 ### **Zusammenarbeit der Dateien**
 1. **`imu.py`**: Bietet die grundlegenden Funktionen für das Lesen von Sensordaten.
-2. **`kalibrierungs.py`**: Sorgt dafür, dass die Sensordaten korrekt kalibriert sind.
-3. **`html.py`**: Erstellt die HTML-Seite, die die berechneten Daten anzeigt.
-4. **`winkelmessungs.py`**: Führt die Winkelmessung aus, steuert den Prozess und verbindet die Daten mit der HTML-Darstellung über den Webserver.
+2. **`Kalibrierung_Knie.py`**: Sorgt dafür, dass die Sensordaten korrekt kalibriert sind.
+3. **`html_template.py`**: Erstellt die HTML-Seite, die die berechneten Daten anzeigt.
+4. **`Winkelmessung_mit_Webserver.py`**: Führt die Winkelmessung aus, steuert den Prozess und verbindet die Daten mit der HTML-Darstellung über den Webserver.
 
 ---
 
 ### **Ablauf im Gesamtsystem**
 1. Die Sensoren werden mit **`imu.py`** angesprochen.
-2. Mit **`kalibrierungs.py`** werden die Sensoren kalibriert und die Kalibrierungsdaten gespeichert.
-3. Die Winkelberechnung erfolgt in **`winkelmessungs.py`**, indem die Sensordaten (aus `imu.py`) genutzt werden.
+2. Mit **`Kalibrierung_Knie.py`** werden die Sensoren kalibriert und die Kalibrierungsdaten gespeichert.
+3. Die Winkelberechnung erfolgt in **`Winkelmessung_mit_Webserver.py`**, indem die Sensordaten (aus `imu.py`) genutzt werden.
 4. Die Ergebnisse (Winkelmessung) werden mit **`html.py`** in einer HTML-Seite aufbereitet.
-5. Der Benutzer kann die HTML-Seite über den Webserver aufrufen, der in **`winkelmessungs.py`** läuft.
+5. Der Benutzer kann die HTML-Seite über den Webserver aufrufen, der in **`Winkelmessung_mit_Webserver.py`** läuft.
 
 ---
 
 ### **Zusammenfassung der Aufgaben:**
 - **`imu.py`**: Hardware-Schnittstelle für Sensoren.
-- **`kalibrierungs.py`**: Sensor-Kalibrierung und Datenkorrektur.
-- **`html.py`**: Darstellung der Messergebnisse in HTML.
-- **`winkelmessungs.py`**: Hauptprogramm, das alles zusammenführt, den Winkel berechnet und die Ergebnisse über den Webserver bereitstellt.
+- **`Kalibrierung_Knie.py`**: Sensor-Kalibrierung und Datenkorrektur.
+- **`html_template.py`**: Darstellung der Messergebnisse in HTML.
+- **`Winkelmessung_mit_Webserver.py`**: Hauptprogramm, das alles zusammenführt, den Winkel berechnet und die Ergebnisse über den Webserver bereitstellt.
   
   
 # 1. Code für den ESP32 Kalibrierung (MicroPython: Kalibrierung_Knie.py)
