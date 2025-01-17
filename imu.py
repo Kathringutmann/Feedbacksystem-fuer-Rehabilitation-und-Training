@@ -64,3 +64,4 @@ class MPU6050:
         """
         # Lese den Wert des WHO_AM_I-Registers (Adresse 0x75)
         return self.i2c.readfrom_mem(self.address, 0x75, 1)[0]
+

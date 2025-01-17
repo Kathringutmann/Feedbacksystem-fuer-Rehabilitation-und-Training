@@ -109,28 +109,36 @@ def setup_server():
 def serve(s):
     """Hauptserver-Schleife."""
     print('Webserver läuft auf', ip)  # Zeige die IP-Adresse des Servers an
-    
+
+    # Initialisieren von Variablen für die Winkelverfolgung
+    last_knee_angle = None  # Zuletzt berechneter Kniewinkel
+    last_html = None        # Zuletzt generiertes HTML
+
     while True:  # Endlosschleife für den Serverbetrieb
         try:
             cl, addr = s.accept()  # Warte auf einen Client und akzeptiere die Verbindung
             request = cl.recv(1024).decode('utf-8')  # Lese die Anfrage des Clients
-            
+
             # Berechne den aktuellen Winkel zwischen den beiden MPU6050-Sensoren
-            knee_angle = calculate_angle()
-            
-            # Generiere HTML mit dem aktuellen Winkel
-            html = generate_html(knee_angle)
-            
-            # Sende die HTML-Antwort an den Client
+            current_knee_angle = calculate_angle()
+
+            # Überprüfen, ob sich der Winkel signifikant geändert hat (z. B. mehr als 0.1 Grad)
+            if last_knee_angle is None or abs(current_knee_angle - last_knee_angle) > 0.1:
+                last_knee_angle = current_knee_angle  # Aktualisiere den gespeicherten Winkel
+                last_html = generate_html(last_knee_angle)  # Aktualisiere das gespeicherte HTML
+
+            # Sende die gespeicherte HTML-Antwort an den Client
             cl.send("HTTP/1.1 200 OK\nContent-Type: text/html\n\n")
-            cl.send(html)  # Sende das HTML
+            cl.send(last_html)  # Sende das HTML
             cl.close()  # Schließe die Verbindung
+
         except Exception as e:
             print("Fehler in Server-Schleife:", e)
             try:
                 cl.close()  # Versuche, die Client-Verbindung zu schließen
             except:
                 pass
+
 
 # Hauptprogramm
 print("Starte ESP32 Webserver...")  # Gib aus, dass der Webserver gestartet wird
@@ -149,4 +157,3 @@ except Exception as e:
         server_socket.close()  # Versuche, den Server-Socket zu schließen
     except:
         pass
-
