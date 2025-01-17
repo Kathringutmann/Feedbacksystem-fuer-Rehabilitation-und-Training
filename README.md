@@ -1,10 +1,5 @@
 ## Feedbacksystem-fuer-Rehabilitation-und-Training
 
-# verwendete .py:
-Ja, mit den vier Python-Dateien (**`imu.py`**, **`kalibrierung_knie.py`**, **`html_template.py`** und **`winkelmessung_mit_Webserver.py`**) sollte der Code vollständig funktionieren, vorausgesetzt, die Dateien sind korrekt implementiert und erfüllen die jeweiligen Aufgaben. Hier ist eine Erklärung, welche Aufgabe jede Datei hat:
-
----
-
 ### **1. `imu.py`**: 
 #### **Aufgabe: Sensor-Interface**
 - Diese Datei definiert die **`MPU6050`-Klasse**, die als Schnittstelle zum MPU6050-Sensor dient.
@@ -93,33 +88,22 @@ Ja, mit den vier Python-Dateien (**`imu.py`**, **`kalibrierung_knie.py`**, **`ht
 - **`html_template.py`**: Darstellung der Messergebnisse in HTML.
 - **`Winkelmessung_mit_Webserver.py`**: Hauptprogramm, das alles zusammenführt, den Winkel berechnet und die Ergebnisse über den Webserver bereitstellt.
   
-  
-# 1. Code für den ESP32 Kalibrierung (MicroPython: Kalibrierung_Knie.py)
-Über drei Achsen Beschläunigung wird jeweils pro Sensor ein Vektor erstellt und deren Abhängigkeit zwischen der beiden, also den Winkel den die beiden zueinander haben 0° gesetzt.
-
-# 2. Code für den ESP32 Winkelmessung (MicroPython: Winkelmessung_MPU6050.py)
-Nutzt calibration.json für Messung der Winkel zwischen zwei Vektoren ausgehend von dem gespeicherten 0° Winkel. 
-
-# 3. Code für den ESP32 IMU-Lib (MicroPython: imu.py)
-angepasste Lib für die Sensoren (Quelle: Github)
-
-# 4. Code für die Streamlit-App (Python: Trainer_App.py)
-Der Streamlit-Code empfängt die Sensordaten über WLAN und zeigt sie in einer Benutzeroberfläche an.
-Dropdownmenü für mögliche weitere Gelenke...
-
+---
 
 # Anwendung:
-1. Kalibrierung direkt in "Endlage = 0°" des Gelenks für jede Benutzung seperat
+1. Kalibrierung direkt in "Endlage = 0°" des Gelenks (einmalig, NICHT für jede Messung einzeln)
 2. Ausführung Code zur Winkelmessung
-3. Ausgabe auf Webserver oder App...?
+3. Ausgabe auf Webserver 
    
 
-# To do's
-- Webserverhandshake zwischen Streamlit App und Winkelmessung vom ESP32
-- Stromversorgung über Laptop?
+
 
 # mögliche Erweiterungen
 - mögliche Halterungen (3D-Druck) zur Erweiterung für mehr Gelenksmessungen
+- Stromversorgung unabhängig von Laptop
+- App(Streamlit,... statt Webserver)
 - App Erweiterung der Gelenke
 - App Erweiterung für Kommunikation mit Physios,...
-   Ziel: nur Sensoren an Gelenken und Anzeige in der App zur Hilfe bei Eigenmobilisation odeer Winkelkontrolle
+
+---
+Ziel: nur Sensoren an Gelenken und Anzeige in der App zur Hilfe bei Eigenmobilisation odeer Winkelkontrolle beim eigenständigen Krafttraining
