@@ -1,5 +1,79 @@
 ## Feedbacksystem-fuer-Rehabilitation-und-Training
 
+# Feedbacksystem für Rehabilitation und Training
+
+Dieses Projekt misst den Kniegelenkswinkel in Echtzeit und stellt die Daten über einen Webserver zur Verfügung. Es wurde für Rehabilitation und Training entwickelt und verwendet ESP32 sowie MPU6050-Sensoren.
+
+## Inhaltsverzeichnis
+- [Systemübersicht](#systemübersicht)
+- [Hardware](#hardware)
+- [Software](#software)
+- [Einrichtung](#einrichtung)
+- [Verwendung](#verwendung)
+- [BOM (Bill of Materials)](#bom-bill-of-materials)
+- [Softwarearchitektur](#Softwarearchitektur).
+- [mögliche-Erweiterungen](#mögliche-Erweiterungen)
+
+## Systemübersicht
+
+Das System verwendet zwei MPU6050-Sensoren, um den Winkel eines Kniegelenks zu messen. Der ESP32 fungiert als Hauptprozessor, verbindet sich mit dem WLAN und stellt die Messergebnisse über einen Webserver bereit. Der Benutzer kann die aktuellen Daten in einem Browser anzeigen.
+
+## Hardware
+
+### Erforderliche Komponenten
+- ESP32 Mikrocontroller
+- Zwei MPU6050-Sensoren
+- I2C-Kabel
+- Stromversorgung (z. B. USB-Kabel)
+- Kniegelenk-Halterung
+
+Details zur genauen Stückliste im Abschnitt [BOM](#bom-bill-of-materials).
+
+## Software
+
+Die Firmware basiert auf Micropython und enthält die MPU6050-Bibliothek. Der Code verbindet sich mit einem definierten WLAN-Netzwerk und zeigt den aktuellen Kniegelenkswinkel über eine Webseite an.
+
+### Installation von Micropython
+1. Flashen Sie die Micropython-Firmware auf den ESP32:
+2. Laden Sie den Code (siehe Repository) auf den ESP32.
+
+### WLAN-Konfiguration
+Passen Sie die Variablen `ssid` und `password` im Code an Ihr WLAN an.
+
+## Einrichtung
+
+1. Verbinde MPU6050-Sensoren mit dem ESP32:
+- SDA an Pin 21
+- SCL an Pin 22
+2. Stromversorgung anschließen.
+3. Starten des ESP32.
+
+## Verwendung
+
+- Der Webserver läuft unter der IP-Adresse des ESP32 (im Terminal angezeigt).
+- Öffnen Sie die Adresse in einem Browser, um den aktuellen Kniegelenkswinkel zu sehen.
+
+## BOM (Bill of Materials)
+
+### Hardware
+| **Komponente**       | **Beschreibung**                                                | **Menge** | **Bezugsquelle** (optional) |
+|-----------------------|----------------------------------------------------------------|-----------|-----------------------------|
+| **ESP32 Mikrocontroller** | Mikrocontroller für die WLAN- und Sensorverarbeitung       | 1         | Uni |
+| **MPU6050 IMU**       | Beschleunigungs- und Gyroskopsensor (zwei Stück für die Kniegelenksmessung) | 2         | Freund |
+| **I2C-Verbindungskabel** | Verbindungskabel für I2C-Kommunikation zwischen ESP32 und MPU6050 | 4         | Uni         |
+| **Stromversorgung**   | USB-Kabel oder Batteriehalterung (abhängig von deinem Setup)  | 1         | Uni         |
+| **Kniegelenk-Halterung** | Halterung, um die Sensoren am Knie zu befestigen            | 1         | 3D-Druck           |
+
+### Software
+| **Komponente**        | **Beschreibung**                                              | **Version** (falls bekannt) | **Bezugsquelle**            |
+|-----------------------|----------------------------------------------------------------|-----------------------------|-----------------------------|
+| **Micropython**       | Firmware für den ESP32                                        | Aktuell                     | [Micropython](https://micropython.org/) |
+| **MPU6050 Library**   | Python-Bibliothek für die Kommunikation mit dem MPU6050       | -                           | Enthalten in deinem Code   |
+| **JSON-Modul**        | Standard-Python-Modul für JSON-Verarbeitung                   | -                           | Standard                    |
+| **WLAN-Konfiguration**| SSID und Passwort im Code festgelegt                          | -                           | Benutzerdefiniert           |
+
+---
+### **Softwarearchitektur**
 ### **1. `imu.py`**: 
 #### **Aufgabe: Sensor-Interface**
 - Diese Datei definiert die **`MPU6050`-Klasse**, die als Schnittstelle zum MPU6050-Sensor dient.
@@ -89,12 +163,6 @@
 - **`Winkelmessung_mit_Webserver.py`**: Hauptprogramm, das alles zusammenführt, den Winkel berechnet und die Ergebnisse über den Webserver bereitstellt.
   
 ---
-
-# Anwendung:
-1. Kalibrierung direkt in "Endlage = 0°" des Gelenks (einmalig, NICHT für jede Messung einzeln)
-2. Ausführung Code zur Winkelmessung
-3. Ausgabe auf Webserver 
-   
 
 
 
